@@ -4,16 +4,16 @@ import axios from "axios";
 import Constant from "../utils/Constant";
 
 export default function Utility() {
-  const [algorithmPercentage, setAlgorithmPercentage] = useState(); 
-  const [tempAlgorithmPercentage, setTempAlgorithmPercentage] = useState(); 
-  const [message, setMessage] = useState(""); 
-  const [loading, setLoading] = useState(false); 
-  const [updatedAt, setUpdatedAt] = useState(""); 
+  const [algorithmPercentage, setAlgorithmPercentage] = useState();
+  const [tempAlgorithmPercentage, setTempAlgorithmPercentage] = useState(0); 
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [updatedAt, setUpdatedAt] = useState("");
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     if (!token) {
-      window.location.replace("http://localhost:3000"); 
+      window.location.replace("http://localhost:3000");
     } else {
       fetchAlgorithmPercentage();
     }
@@ -25,7 +25,7 @@ export default function Utility() {
       const response = await axios.get(
         `${Constant.BASE_URL}/super-admin/getPercentage`,
         {
-          headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` }, 
+          headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` },
         }
       );
 
@@ -36,9 +36,9 @@ export default function Utility() {
         ? new Date().toLocaleString()
         : parsedDate.toLocaleString();
 
-      setAlgorithmPercentage(response.data.percentage); 
-      setTempAlgorithmPercentage(response.data.percentage);
-      setUpdatedAt(validDate); 
+      setAlgorithmPercentage(response.data.percentage);
+      setTempAlgorithmPercentage(response.data.percentage); // Set initial temp value
+      setUpdatedAt(validDate);
       setLoading(false);
     } catch (error) {
       setMessage("Error fetching percentage. Please try again.");
@@ -47,8 +47,13 @@ export default function Utility() {
   };
 
   const handleTempAlgorithmPercentageChange = (e) => {
-    const value = Math.max(0, Math.min(100, e.target.value)); 
-    setTempAlgorithmPercentage(value);
+    const value = parseFloat(e.target.value);
+    // Validate the input value
+    if (!isNaN(value)) {
+      setTempAlgorithmPercentage(Math.max(0, Math.min(1000, value))); // Ensure it is between 0 and 100
+    } else {
+      setTempAlgorithmPercentage(0); // Reset to 0 if input is invalid
+    }
   };
 
   const handleUpdatePercentage = async () => {
@@ -57,14 +62,14 @@ export default function Utility() {
       const response = await axios.put(
         `${Constant.BASE_URL}/super-admin/updatePercentage`,
         {
-          percentage: tempAlgorithmPercentage, 
-          updatedAt: new Date().toISOString(), 
+          percentage: tempAlgorithmPercentage,
+          updatedAt: new Date().toISOString(),
         },
         {
-          headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` }, 
+          headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` },
         }
       );
-      setAlgorithmPercentage(tempAlgorithmPercentage); 
+      setAlgorithmPercentage(tempAlgorithmPercentage); // Update state to reflect new percentage
 
       const backendUpdatedAt = response.data.updatedAt;
       const parsedDate = new Date(backendUpdatedAt);
@@ -73,8 +78,8 @@ export default function Utility() {
         ? new Date().toLocaleString()
         : parsedDate.toLocaleString();
 
-      setUpdatedAt(validDate); 
-      setMessage("Percentage updated successfully!"); 
+      setUpdatedAt(validDate);
+      setMessage("Percentage updated successfully!");
       setLoading(false);
     } catch (error) {
       setMessage("Failed to update percentage. Please try again.");
@@ -97,7 +102,7 @@ export default function Utility() {
               <div className="flex items-center justify-center mb-4">
                 <input
                   type="number"
-                  value={tempAlgorithmPercentage} 
+                  value={tempAlgorithmPercentage} // Controlled input
                   onChange={handleTempAlgorithmPercentageChange}
                   className="border border-gray-300 rounded-md p-2 w-24 text-center"
                   placeholder="%"
@@ -118,7 +123,7 @@ export default function Utility() {
                       fill="none"
                       strokeWidth="3"
                       strokeLinecap="round"
-                      strokeDasharray={`${algorithmPercentage}, 100`} 
+                      strokeDasharray={`${algorithmPercentage}, 100`}
                       d="M18 2.0845
                        a 15.9155 15.9155 0 0 1 0 31.831
                        a 15.9155 15.9155 0 0 1 0 -31.831"

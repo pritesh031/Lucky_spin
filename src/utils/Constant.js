@@ -1,3 +1,3 @@
 export default {
-    BASE_URL: "  https://lucky-card-backend-dev.onrender.com/api",   
+    BASE_URL: "http://43.204.154.224:5000/api",   
   };
