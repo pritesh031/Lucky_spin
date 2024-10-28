@@ -1,3 +1,3 @@
 export default {
-    BASE_URL: "http://43.204.154.224:5000/api",   
+    BASE_URL: "https://winningspin-backend-nodejs.onrender.com/api",   
   };
