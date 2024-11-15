@@ -76,15 +76,13 @@ const GameHistory = () => {
     }
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
-
+  
   return (
     <>
       <Navbar />
-      <div className="min-h-screen flex items-center justify-center bg-gray-200">
-      <div className="max-w-7xl min-h-[500px] h-auto p-6 rounded-lg bg-white">
-          <h1 className="text-3xl font-bold mb-6 text-gray-800">
+      <div className="min-h-screen  flex items-center justify-center bg-gray-200 xl:w-full xsm:p-6 xsm:pl-[37px] xs:pl-[31px] xss:pl-[25px] iphone12:pl-[30px] iphone14:pl-[24px] pixel7:pl-[27px] gals8:pl-[35px] galaxyz:pl-[35px] xsm:w-[270px] xs:w-[320px] xss:w-[355px] iphone12:w-[335px] iphone14:w-[370px] pixel7:w-[355px] gals8:w-[310px] galaxyz:w-[293px] mxs:w-[370px]">
+      <div className=" xl:w-full  xsm:w-[240px] xs:w-[280px] xss:w-[305px] iphone12:w-[290px] iphone14:w-[330px] pixel7:w-[310px] gals8:w-[270px] galaxyz:w-[253px] xl:min-h-[500px]  h-auto xl:p-6 xsm:p-3 rounded-lg bg-white">
+          <h1 className="xl:text-3xl xsm:text-lg font-bold mb-6 text-gray-800">
             Game History
           </h1>
 
@@ -92,22 +90,22 @@ const GameHistory = () => {
             <table className="min-w-full table-auto text-left">
               <thead className="bg-gray-100">
                 <tr>
-                  <th className="px-6 py-3 text-xs font-semibold text-gray-700 uppercase">
+                  <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] font-semibold text-gray-700 uppercase">
                     ID
                   </th>
-                  <th className="px-6 py-3 text-xs font-semibold text-gray-700 uppercase">
+                  <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] font-semibold text-gray-700 uppercase">
                     Admin ID
                   </th>
-                  <th className="px-6 py-3 text-xs font-semibold text-gray-700 uppercase">
+                  <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] font-semibold text-gray-700 uppercase">
                     Date
                   </th>
-                  <th className="px-6 py-3 text-xs font-semibold text-gray-700 uppercase">
+                  <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] font-semibold text-gray-700 uppercase">
                     Tickets Sold
                   </th>
-                  <th className="px-6 py-3 text-xs font-semibold text-gray-700 uppercase">
+                  <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] font-semibold text-gray-700 uppercase">
                     Winning Amount
                   </th>
-                  <th className="px-6 py-3 text-xs font-semibold text-gray-700 uppercase">
+                  <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] font-semibold text-gray-700 uppercase">
                     Cards
                   </th>
                 </tr>
@@ -133,22 +131,22 @@ const GameHistory = () => {
 
                     return (
                       <tr key={game._id}>
-                        <td className="px-6 py-4 text-sm font-medium text-gray-900">
+                        <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] font-medium text-gray-900">
                           {game._id}
                         </td>
-                        <td className="px-6 py-4 text-sm text-gray-900">
+                        <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] text-gray-900">
                           {game.Bets.length > 0 ? game.Bets[0].adminID : "N/A"}
                         </td>
-                        <td className="px-6 py-4 text-sm text-gray-900">
+                        <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] text-gray-900">
                           {new Date(game.createdAt).toLocaleDateString()}
                         </td>
-                        <td className="px-6 py-4 text-sm text-gray-900">
+                        <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] text-gray-900">
                           {ticketsSold}
                         </td>
-                        <td className="px-6 py-4 text-sm text-gray-900">
+                        <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] text-gray-900">
                           {winningAmount}
                         </td>
-                        <td className="px-6 py-4 text-sm text-gray-900">
+                        <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] text-gray-900">
                           {cardIcons || "No Cards"}
                         </td>
                       </tr>
@@ -158,7 +156,7 @@ const GameHistory = () => {
                   <tr>
                     <td
                       colSpan="6"
-                      className="px-6 py-4 text-center text-sm text-gray-500"
+                      className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-2  text-center xl:text-sm xsm:text-xs text-gray-500"
                     >
                       No game history available.
                     </td>
@@ -173,17 +171,17 @@ const GameHistory = () => {
             <button
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1}
-              className="px-4 py-2 bg-indigo-600 text-white rounded-md disabled:bg-gray-300"
+              className="xl:px-4 xl:py-2 xsm:px-4 xsm:py-1  xl:text-sm xsm:text-[11px] bg-indigo-600 text-white rounded-md disabled:bg-gray-300"
             >
               Previous
             </button>
-            <span>
+            <span className="xl:px-4 xl:py-2 xsm:px-4 xsm:py-1  xl:text-sm xsm:text-[11px]">
               Page {currentPage} of {totalPages}
             </span>
             <button
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
-              className="px-4 py-2 bg-indigo-600 text-white rounded-md disabled:bg-gray-300"
+              className="xl:px-4 xl:py-2 xsm:px-4 xsm:py-1  xl:text-sm xsm:text-[11px] bg-indigo-600 text-white rounded-md disabled:bg-gray-300"
             >
               Next
             </button>

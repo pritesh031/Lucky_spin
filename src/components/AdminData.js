@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Navbar from "./Navbar";
 import Constant from "../utils/Constant";
-import Modal from "./Modal"; 
+import Modal from "./Modal";
 
 function AdminData() {
   const [data, setData] = useState([]);
@@ -11,21 +11,21 @@ function AdminData() {
   const [actionType, setActionType] = useState("");
   const [selectedEmail, setSelectedEmail] = useState("");
   const [selectedAdmin, setSelectedAdmin] = useState(null);
-  const [gameDetails, setGameDetails] = useState([]); 
-  const [filteredGameDetails, setFilteredGameDetails] = useState([]); 
-  const [selectedDate, setSelectedDate] = useState(""); 
+  const [gameDetails, setGameDetails] = useState([]);
+  const [filteredGameDetails, setFilteredGameDetails] = useState([]);
+  const [selectedDate, setSelectedDate] = useState("");
 
   const checkAuthToken = () => {
     const token = localStorage.getItem("authToken");
     if (!token) {
-      window.location.replace("http://localhost:3000"); 
+      window.location.replace("http://localhost:3000");
       return false;
     }
     return true;
   };
 
   useEffect(() => {
-    if (!checkAuthToken()) return; 
+    if (!checkAuthToken()) return;
     axios
       .get(`${Constant.BASE_URL}/super-admin/all-admins`, {
         headers: {
@@ -43,7 +43,7 @@ function AdminData() {
   const handleCheckDetails = async (admin) => {
     setSelectedAdmin(admin);
     setPopupOpen(true);
-  
+
     try {
       const response = await axios.get(
         `${Constant.BASE_URL}/super-admin/winnings/${admin.adminId}`,
@@ -53,24 +53,24 @@ function AdminData() {
           },
         }
       );
-  
+
       const sortedGameDetails = response.data.data.sort((a, b) => {
         return new Date(b.createdAt) - new Date(a.createdAt);
       });
-  
+
       setGameDetails(sortedGameDetails);
-      setFilteredGameDetails(sortedGameDetails); 
+      setFilteredGameDetails(sortedGameDetails);
     } catch (error) {
       console.error("Error fetching game details:", error);
     }
   };
 
   const closePopup = () => {
-    setPopupOpen(false); 
-    setSelectedAdmin(null); 
-    setGameDetails([]); 
+    setPopupOpen(false);
+    setSelectedAdmin(null);
+    setGameDetails([]);
     setFilteredGameDetails([]);
-    setSelectedDate(""); 
+    setSelectedDate("");
   };
 
   const handleDateChange = (e) => {
@@ -84,18 +84,18 @@ function AdminData() {
       });
       setFilteredGameDetails(filtered);
     } else {
-      setFilteredGameDetails(gameDetails); 
+      setFilteredGameDetails(gameDetails);
     }
   };
 
   // Handle reset button click
   const handleResetFilter = () => {
-    setFilteredGameDetails(gameDetails); 
-    setSelectedDate(""); 
+    setFilteredGameDetails(gameDetails);
+    setSelectedDate("");
   };
 
   const handleDelete = (adminId) => {
-    if (!checkAuthToken()) return; 
+    if (!checkAuthToken()) return;
     setSelectedEmail(adminId);
     setActionType("delete");
     setModalOpen(true);
@@ -112,7 +112,7 @@ function AdminData() {
   const confirmAction = async () => {
     const token = localStorage.getItem("authToken");
     if (!token) {
-      window.location.replace("http://localhost:3000"); 
+      window.location.replace("http://localhost:3000");
       return;
     }
     let apiUrl = "";
@@ -156,29 +156,30 @@ function AdminData() {
   return (
     <>
       <Navbar />
-      <div className="p-6 bg-gray-200 min-h-screen w-full overflow-auto">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">Admin Data</h1>
+      <div className="xl:p-6 xsm:p-3 xsm:pl-[25px] xs:pl-[20px] bg-gray-200 min-h-screen xl:w-full overflow-auto  xsm:w-[270px] xs:w-[320px] xss:w-[355px] iphone12:w-[335px] iphone14:w-[370px] pixel7:w-[355px] gals8:w-[310px] galaxyz:w-[293px] mxs:w-[370px]">
+        <h1 className="xl:text-3xl xsm:text-lg font-bold text-gray-800 mb-4 ">Admin Data</h1>
         {data.length > 0 ? (
           <div className="overflow-hidden border-b border-gray-200 shadow-md rounded-lg">
-            <table className="min-w-full divide-y divide-gray-200">
+          <div className="overflow-x-auto">
+            <table className="xl:min-w-full divide-y divide-gray-200 xsm:w-[350px]">
               <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <tr className="xsm:py-1">
+                  <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 text-left xl:text-sm xsm:text-[11px] font-medium text-gray-500 uppercase tracking-wider">
                     Name
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 text-left xl:text-sm xsm:text-[11px] font-medium text-gray-500 uppercase tracking-wider">
                     Email
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 text-left xl:text-sm xsm:text-[11px] font-medium text-gray-500 uppercase tracking-wider">
                     Created On
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 text-left xl:text-sm xsm:text-[11px] font-medium text-gray-500 uppercase tracking-wider">
                     Wallet Balance
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 text-left xl:text-sm xsm:text-[11px] font-medium text-gray-500 uppercase tracking-wider">
                     Admin Data
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 text-left xl:text-sm xsm:text-[11px] font-medium text-gray-500 uppercase tracking-wider">
                     Actions
                   </th>
                 </tr>
@@ -186,35 +187,35 @@ function AdminData() {
               <tbody className="bg-white divide-y divide-gray-200">
                 {data.map((item) => (
                   <tr key={item.email}>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] whitespace-nowrap  font-medium text-gray-900">
                       {item.name}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] whitespace-nowrap text-sm font-medium text-gray-900">
                       {item.email}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] whitespace-nowrap text-sm font-medium text-gray-900">
                       {new Date(item.creationDate).toLocaleDateString()}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] whitespace-nowrap text-sm font-medium text-gray-900">
                       ₹{item.walletBalance}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] whitespace-nowrap text-sm font-medium text-gray-900">
                       <button
-                        className="mr-2 text-white bg-green-600 hover:bg-green-700 font-semibold py-1 px-2 rounded"
+                        className="mr-2 text-white bg-green-600 hover:bg-green-700 font-semibold xl:py-1 xl:px-2 xsm:py-[2px] xsm:px-2 rounded"
                         onClick={() => handleCheckDetails(item)}
                       >
                         Check Details
                       </button>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] whitespace-nowrap text-sm font-medium text-gray-900">
                       <button
-                        className="mr-2 text-white bg-red-500 hover:bg-red-600 font-semibold py-1 px-2 rounded"
+                        className="mr-2 text-white bg-red-500 hover:bg-red-600 font-semibold  xl:py-1 xl:px-2 xsm:py-[2px] xsm:px-2 rounded"
                         onClick={() => handleDelete(item.adminId)}
                       >
                         Delete
                       </button>
                       <button
-                        className={`mr-2 text-white font-semibold py-1 px-2 rounded ${
+                        className={`mr-2 text-white font-semibold  xl:py-1 xl:px-2 xsm:py-[2px] xsm:px-2 rounded ${
                           item.isBlocked
                             ? "bg-green-500 hover:bg-green-600"
                             : "bg-yellow-500 hover:bg-yellow-600"
@@ -228,6 +229,7 @@ function AdminData() {
                 ))}
               </tbody>
             </table>
+            </div>
           </div>
         ) : (
           <div className="mt-4 text-gray-500">No admin data available.</div>
@@ -237,54 +239,59 @@ function AdminData() {
       {/* Static Popup */}
       {isPopupOpen && (
         <div
-          className="fixed inset-0 flex items-center justify-center pl-[100px] bg-gray-900 bg-opacity-75 z-50"
+          className="fixed inset-0 flex items-center justify-center xl:pl-[100px] xsm:pl-[15px] xsm:pr-[15px] bg-gray-900 bg-opacity-75 z-50"
           onClick={closePopup}
         >
           <div
-            className="bg-white p-8 rounded-lg shadow-xl max-w-5xl w-full h-[500px] overflow-hidden relative"
+            className="bg-white xl:p-8 xsm:p-4 rounded-lg shadow-xl max-w-5xl w-full xl:h-[500px] overflow-hidden relative"
             onClick={(e) => e.stopPropagation()}
           >
-          <div className="flex flex-row items-center gap-[310px]">
-            <h2 className="text-2xl font-bold mb-6 text-gray-800">
-              Admin Game Details
-            </h2>
+            <div className="xl:flex xl:flex-row xsm:flex xsm:flex-col items-center xl:gap-[310px]">
+              <h2 className="xl:text-2xl xsm:text-lg font-bold mb-6 text-gray-800">
+                Admin Game Details
+              </h2>
 
-            {/* Date filter input */}
-            <div className="mb-4 flex items-center space-x-4">
-              <label htmlFor="filter-date" className="text-gray-700 font-medium">
-                Filter by Date:
-              </label>
-              <input
-                type="date"
-                id="filter-date"
-                value={selectedDate}
-                onChange={handleDateChange}
-                className="px-4 py-2 border rounded-md"
-              />
-              <button
-                className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-                onClick={handleResetFilter}
-              >
-                Reset Filter
-              </button>
+              {/* Date filter input */}
+              <div className="mb-4 xl:flex xl:flex-row xsm:flex xsm:flex-col items-center xl:space-x-4  ">
+                <label
+                  htmlFor="filter-date"
+                  className="text-gray-700 font-medium"
+                >
+                  Filter by Date:
+                </label>
+                <div className="xsm:flex xsm:flex-row xsm:space-x-2">
+                <input
+                  type="date"
+                  id="filter-date"
+                  value={selectedDate}
+                  onChange={handleDateChange}
+                  className="xl:px-4 xl:py-2 xsm:px-2 xsm:py-[2px] border rounded-md"
+                />
+                <button
+                  className="bg-blue-500 text-white xl:text-md xsm:text-[12px] xl:px-4 xl:py-2 xsm:px-2 xsm:py-[2px] rounded-md hover:bg-blue-600"
+                  onClick={handleResetFilter}
+                >
+                  Reset Filter
+                </button>
+                </div>
+              </div>
             </div>
-</div>
             {/* Game details table */}
             <div className="w-full h-[350px] overflow-auto scrollbar-hide rounded-lg mb-4 border border-gray-300">
               <table className="min-w-full text-left border-collapse">
                 <thead className="bg-gray-100">
                   <tr>
-                    <th className="border px-6 py-3 text-sm font-semibold text-gray-700">
+                    <th className="border xl:px-6 xl:py-3 xsm:px-6 xsm:py-0.5 xl:text-lg xsm:text-[12px] font-semibold text-gray-700">
                       Game ID
                     </th>
-                    <th className="border px-6 py-3 text-sm font-semibold text-gray-700">
+                    <th className="border  xl:px-6 xl:py-3 xsm:px-6 xsm:py-0.5 xl:text-lg xsm:text-[12px] font-semibold text-gray-700">
                       Admin ID
                     </th>
-                    <th className="border px-6 py-3 text-sm font-semibold text-gray-700">
+                    <th className="border  xl:px-6 xl:py-3 xsm:px-6 xsm:py-0.5 xl:text-lg xsm:text-[12px] font-semibold text-gray-700">
                       Winning Amount
                     </th>
-                    <th className="border px-6 py-3 text-sm font-semibold text-gray-700">
-                     Date
+                    <th className="border  xl:px-6 xl:py-3 xsm:px-6 xsm:py-0.5 xl:text-lg xsm:text-[12px] font-semibold text-gray-700">
+                      Date
                     </th>
                   </tr>
                 </thead>
@@ -295,16 +302,16 @@ function AdminData() {
                         key={game._id}
                         className="hover:bg-gray-50 transition-colors duration-200"
                       >
-                        <td className="border px-6 py-3 text-gray-800 text-sm">
+                        <td className="border xl:px-6 xl:py-3 xsm:px-6 xsm:py-0.5 xl:text-lg xsm:text-[12px] text-gray-800 ">
                           {game.gameId}
                         </td>
-                        <td className="border px-6 py-3 text-gray-800 text-sm">
+                        <td className="border xl:px-6 xl:py-3 xsm:px-6 xsm:py-0.5 xl:text-lg xsm:text-[12px] text-gray-800 ">
                           {game.adminId}
                         </td>
-                        <td className="border px-6 py-3 text-gray-800 text-sm">
+                        <td className="border xl:px-6 xl:py-3 xsm:px-6 xsm:py-0.5 xl:text-lg xsm:text-[12px] text-gray-800 ">
                           ₹{game.winningAmount}
                         </td>
-                        <td className="border px-6 py-3 text-gray-800 text-sm">
+                        <td className="border xl:px-6 xl:py-3 xsm:px-6 xsm:py-0.5 xl:text-lg xsm:text-[12px] text-gray-800 ">
                           {new Date(game.createdAt).toLocaleString()}
                         </td>
                       </tr>
@@ -313,7 +320,7 @@ function AdminData() {
                     <tr>
                       <td
                         colSpan="5"
-                        className="border px-6 py-3 text-center text-gray-500 text-sm"
+                        className="border xl:px-6 xl:py-3 xsm:px-6 xsm:py-0.5 xl:text-lg xsm:text-[12px] text-center text-gray-500 "
                       >
                         No game details available.
                       </td>
@@ -324,7 +331,7 @@ function AdminData() {
             </div>
 
             <button
-              className="absolute bottom-3 right-6 bg-red-500 text-white hover:bg-red-600 font-semibold py-2 px-6 rounded-lg shadow-md "
+              className="absolute xl:bottom-2 xsm:bottom-0.5 right-6 bg-red-500 text-white hover:bg-red-600 font-semibold xl:px-6 xl:py-2 xsm:px-4 xsm:py-1 xl:text-lg xsm:text-[12px] rounded-lg shadow-md "
               onClick={closePopup}
             >
               Close
@@ -336,10 +343,15 @@ function AdminData() {
       {isModalOpen && (
         <Modal
           message={`Are you sure you want to ${
-            actionType === "delete" ? "delete" : actionType === "block" ? "block" : "unblock"
+            actionType === "delete"
+              ? "delete"
+              : actionType === "block"
+              ? "block"
+              : "unblock"
           } the admin?`}
           onCancel={() => setModalOpen(false)}
           onConfirm={confirmAction}
+          className="xsm:w-[100px]"
         />
       )}
     </>

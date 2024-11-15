@@ -10,6 +10,7 @@ import Utility from "./components/Utility";
 import Wallet from "./components/Wallet";
 import GameHistory from "./components/GameHistory";
 import Algorithm from "./components/Algorithm";
+import Ntp from "./components/Ntp";
 
 const AppLayout = ({ children }) => {
   return (
@@ -46,6 +47,8 @@ const App = () => {
                 <Route path="/wallet" element={<Wallet />} />
                 <Route path="/gamehistory" element={<GameHistory />} />
                 <Route path="/algorithm" element={<Algorithm />} />
+                <Route path="/ntp" element={<Ntp />} />
+
               </Routes>
             </AppLayout>
           }

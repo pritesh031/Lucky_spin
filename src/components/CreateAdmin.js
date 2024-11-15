@@ -91,14 +91,14 @@ function SignUpPage() {
   return (
     <>
       <Navbar />
-      <div className="h-[91vh] flex flex-col p-">
+      <div className="xl:h-[91vh] xsm:h-[88vh] xs:h-[89.2vh] xss:h-[92vh] iphone12:h-[91.5vh] iphone14:h-[92.3vh] pixel7:h-[92.4vh] gals8:h-[90.5vh] galaxyz:h-[91.8vh] flex flex-col bg-gray-200 xl:p-6 xl:w-full xsm:p-6 xsm:pl-[25px] xs:pl-[35px] xss:pl-[25px] iphone12:pl-[30px] gals8:pl-[37px] galaxyz:pl-[35px] xsm:w-[270px] xs:w-[320px] xss:w-[355px] iphone12:w-[335px] iphone14:w-[370px] pixel7:w-[355px] gals8:w-[310px] galaxyz:w-[293px] mxs:w-[370px] ">
         <div className="flex flex-grow items-center justify-center bg-gray-200">
-          <div className="bg-white p-8 rounded-lg shadow-xl w-96">
-            <h1 className="text-2xl font-semibold text-yellow-500 mb-6 text-center">
+          <div className="bg-white xl:p-8 xsm:p-4 rounded-lg shadow-xl w-96">
+            <h1 className="xl:text-2xl xsm:lg font-semibold text-yellow-500 mb-6 text-center">
               Create Admin
             </h1>
             {message && (
-              <div className="mb-4 p-3 bg-blue-100 text-blue-700 rounded-md text-center transition-all duration-300 ease-in-out">
+              <div className="mb-4 p-3 bg-blue-100 xl:text-lg xsm:text-xs text-blue-700 rounded-md text-center transition-all duration-300 ease-in-out">
                 {message}
               </div>
             )}
@@ -109,7 +109,7 @@ function SignUpPage() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Full Name"
-                  className="mt-1 block w-full p-2 bg-white text-black border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                  className="mt-1 block w-full xl:p-2 xsm:p-1 bg-white xsm:text-[12px] xl:text-[17px] text-black border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
                   disabled={isLoading}
                   required
                 />
@@ -120,7 +120,7 @@ function SignUpPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Email"
-                  className="mt-1 block w-full p-2 bg-white text-black border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                  className="mt-1 block w-full xl:p-2 xsm:p-1 bg-white xsm:text-[12px] xl:text-[17px] bg-white text-black border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
                   disabled={isLoading}
                   required
                 />
@@ -132,7 +132,7 @@ function SignUpPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Password"
-                  className="mt-1 block w-full p-2 bg-white text-black border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                  className="mt-1 block w-full xl:p-2 xsm:p-1 bg-white xsm:text-[12px] xl:text-[17px] bg-white text-black border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
                   disabled={isLoading}
                   required
                 />
@@ -141,9 +141,9 @@ function SignUpPage() {
                   onClick={togglePasswordVisibility}
                 >
                   {passwordVisible ? (
-                    <RxEyeOpen className="text-md text-black" />
+                    <RxEyeOpen className="xl:text-xl xsm:text-xs text-black" />
                   ) : (
-                    <FaEyeSlash className="text-md text-black" />
+                    <FaEyeSlash className="xl:text-xl xsm:text-xs text-black" />
                   )}
                 </div>
               </div>
@@ -153,7 +153,7 @@ function SignUpPage() {
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="Confirm Password"
-                  className="mt-1 block w-full p-2 bg-white text-black border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                  className="mt-1 block w-full xl:p-2 xsm:p-1 bg-white xsm:text-[12px] xl:text-[17px] bg-white text-black border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
                   disabled={isLoading}
                   required
                 />
@@ -162,15 +162,15 @@ function SignUpPage() {
                   onClick={togglePasswordVisibility}
                 >
                   {passwordVisible ? (
-                    <RxEyeOpen className="text-md text-black" />
+                    <RxEyeOpen className="xl:text-xl xsm:text-xs text-black" />
                   ) : (
-                    <FaEyeSlash className="text-md text-black" />
+                    <FaEyeSlash className="xl:text-xl xsm:text-xs text-black" />
                   )}
                 </div>
               </div>
 
               <button
-                className="w-full bg-green-600 text-white p-2 rounded-md hover:bg-green-700 transition duration-200"
+                className="w-full bg-green-600 text-white xl:p-2 xsm:p-1 xl:text-lg xsm:text-sm rounded-md hover:bg-green-700 transition duration-200"
                 disabled={isLoading}
               >
                 {isLoading ? "Creating Admin..." : "Create Admin"}
