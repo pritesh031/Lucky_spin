@@ -23,10 +23,10 @@ function SignUpPage() {
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     if (!token) {
-      window.location.replace("http://localhost:3000"); 
+      window.location.replace("http://localhost:3000");
     }
   }, []);
-  
+
   const checkAuthToken = () => {
     const token = localStorage.getItem("authToken");
     if (!token) {
@@ -35,23 +35,23 @@ function SignUpPage() {
   };
 
   useEffect(() => {
-    checkAuthToken(); 
+    checkAuthToken();
   }, []);
 
   // Handle form submission to create a new admin
   const handleCreateAdmin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-  
+
     if (password !== confirmPassword) {
       setMessage("Passwords do not match");
       setIsLoading(false);
       return;
     }
-  
+
     try {
       const token = localStorage.getItem("authToken");
-  
+
       const response = await fetch(`${Constant.BASE_URL}/admin/create`, {
         method: "POST",
         headers: {
@@ -64,19 +64,21 @@ function SignUpPage() {
           password,
         }),
       });
-  
+
       const data = await response.json();
-  
+
       if (!response.ok) {
         if (data.error === "Email already in use") {
-          setMessage("This email is already registered. Please use a different email.");
+          setMessage(
+            "This email is already registered. Please use a different email."
+          );
         } else {
           setMessage(data.message || "An error occurred. Please try again.");
         }
         setIsLoading(false);
         return;
       }
-  
+
       setMessage("Admin created successfully!");
       navigate("/success");
     } catch (error) {
@@ -86,7 +88,6 @@ function SignUpPage() {
       setIsLoading(false);
     }
   };
-  
 
   return (
     <>
@@ -116,7 +117,7 @@ function SignUpPage() {
               </div>
               <div className="relative">
                 <input
-                  type="email"
+                  type="text"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Email"
