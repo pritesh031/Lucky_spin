@@ -92,7 +92,7 @@ function SignUpPage() {
   return (
     <>
       <Navbar />
-      <div className="xl:h-[91vh] xsm:h-[88vh] xs:h-[89.2vh] xss:h-[92vh] iphone12:h-[91.5vh] iphone14:h-[92.3vh] pixel7:h-[92.4vh] gals8:h-[90.5vh] galaxyz:h-[91.8vh] flex flex-col bg-gray-200 xl:p-6 xl:w-full xsm:p-6 xsm:pl-[25px] xs:pl-[35px] xss:pl-[25px] iphone12:pl-[30px] gals8:pl-[37px] galaxyz:pl-[35px] xsm:w-[270px] xs:w-[320px] xss:w-[355px] iphone12:w-[335px] iphone14:w-[370px] pixel7:w-[355px] gals8:w-[310px] galaxyz:w-[293px] mxs:w-[370px] ">
+      <div className="xl:h-[91vh] xsm:h-[88vh] xs:h-[91.6vh] xss:h-[94vh] iphone12:h-[93.5vh] iphone14:h-[94.3vh] pixel7:h-[94vh] gals8:h-[92.5vh] galaxyz:h-[93.8vh] flex flex-col bg-gray-200 xl:p-6 xl:w-full xsm:p-6 xsm:pl-[25px] xs:pl-[35px] xss:pl-[25px] iphone12:pl-[30px] gals8:pl-[37px] galaxyz:pl-[35px] xsm:w-[270px] xs:w-[320px] xss:w-[355px] iphone12:w-[335px] iphone14:w-[370px] pixel7:w-[355px] gals8:w-[310px] galaxyz:w-[293px] mxs:w-[370px] ">
         <div className="flex flex-grow items-center justify-center bg-gray-200">
           <div className="bg-white xl:p-8 xsm:p-4 rounded-lg shadow-xl w-96">
             <h1 className="xl:text-2xl xsm:lg font-semibold text-yellow-500 mb-6 text-center">

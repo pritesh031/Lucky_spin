@@ -21,9 +21,9 @@ export default function Ntp() {
 
   return (
     <>
-      <Navbar />
-      <div className="xl:p-6  xl:w-full bg-gray-200 xl:h-[91vh] xsm:h-[88vh] xs:h-[89.2vh] xss:h-[92vh] iphone12:h-[91.5vh] iphone14:h-[92.3vh] pixel7:h-[92.4vh] gals8:h-[90.5vh] galaxyz:h-[91.8vh] xsm:p-6 xsm:pl-[35px] xs:pl-[33px] xss:pl-[25px] iphone12:pl-[30px] iphone14:pl-[28px] pixel7:pl-[29px] gals8:pl-[37px] galaxyz:pl-[35px] xsm:w-[270px] xs:w-[320px] xss:w-[355px] iphone12:w-[335px] iphone14:w-[370px] pixel7:w-[355px] gals8:w-[310px] galaxyz:w-[293px] mxs:w-[370px] flex flex-col items-center">
-        <h2 className="xl:text-2xl xsm:text-lg font-semibold mb-4"> NTP Details</h2>
+      <Navbar/>
+      <div className="xl:p-6  xl:w-full bg-gray-200 xl:h-[91vh] xsm:h-[88vh] xs:h-[91.6vh] xss:h-[94vh] iphone12:h-[93.5vh] iphone14:h-[94.3vh] pixel7:h-[94vh] gals8:h-[92.5vh] galaxyz:h-[93.8vh] xsm:p-6 xsm:pl-[35px] xs:pl-[33px] xss:pl-[25px] iphone12:pl-[30px] iphone14:pl-[28px] pixel7:pl-[29px] gals8:pl-[37px] galaxyz:pl-[35px] xsm:w-[270px] xs:w-[320px] xss:w-[355px] iphone12:w-[335px] iphone14:w-[370px] pixel7:w-[355px] gals8:w-[310px] galaxyz:w-[293px] mxs:w-[370px] flex flex-col items-center">
+        <h2 className="xl:text-2xl xsm:text-lg font-semibold mb-4 xsm:pt-[20px]">NTP Details</h2>
         {ntpData.length > 0 ? (
           <div className="w-full max-w-3xl bg-white rounded-lg shadow-md overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">

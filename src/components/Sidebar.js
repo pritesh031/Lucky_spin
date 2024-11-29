@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from 'react';
+import { io } from 'socket.io-client';
 import { Link } from "react-router-dom";
 import { HiUserAdd, HiUsers } from "react-icons/hi";
 import { FaWallet, FaBars, FaMoneyCheckAlt } from "react-icons/fa";
@@ -9,7 +10,16 @@ import { useNavigate } from "react-router-dom";
 const Sidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const navigate = useNavigate();
-
+  const [isTimerRunning, setIsTimerRunning] = useState(false); 
+  const [timerData, setTimerData] = useState({
+    remainingTime: 120,
+    isRunning: false,
+    connectedUsers: 0,
+    totalLogins: 0,
+    uniqueUsers: 0,
+    calculatedAmounts: null,
+  });
+  const [socket, setSocket] = useState(null);
   // Toggle sidebar
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -20,10 +30,64 @@ const Sidebar = () => {
     navigate("/");
   };
 
+  
+
+  const toggleTimer = async () => {
+    try {
+      const url = isTimerRunning
+        ? 'https://lucky-card-backend.onrender.com/api/super-admin/stop-timer'
+        : 'https://lucky-card-backend.onrender.com/api/super-admin/start-timer';
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        setIsTimerRunning(!isTimerRunning); 
+      } else {
+        console.error('Failed to toggle timer');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+  useEffect(() => {
+    const newSocket = io('https://lucky-card-backend.onrender.com');
+    setSocket(newSocket);
+
+    // Listen for timer and user updates
+    newSocket.on('timerUpdate', (data) => {
+      setTimerData(data);
+    });
+    newSocket.on('userCountUpdate', (data) => {
+      setTimerData((prev) => ({
+        ...prev,
+        connectedUsers: data.loggedInUsers,
+        totalLogins: data.totalLogins,
+        uniqueUsers: data.uniqueUsers,
+      }));
+    });
+
+    return () => {
+      newSocket.disconnect();
+    };
+  }, []);
+
+  // Format time as mm:ss
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+  };
+
   return (
     <div className="xl:w-64 xsm:w-[60px] relative">
       {/* Mobile Menu Bar */}
-      <div className="xsm:gap-4 xl:hidden p-4 bg-gray-800 z-20 fixed top-0 left-0 w-full xsm:flex-row flex justify-between items-center h-16">
+      <div className="xsm:gap-4 h-[95px] xl:hidden p-4 bg-gray-800 z-20 fixed top-0 left-0 w-full xsm:flex-col flex justify-between items-center h-16">
+       <div className='flex flex-row justify-between items-center xsm:gap-14 xs:gap-[80px] xss:gap-[100px] iphone12:gap-[90px] iphone14:gap-[110px] pixel7:gap-[100px] gals8:gap-[70px] galaxyz:gap-[64px]'>
         <button onClick={toggleSidebar} className="text-white xsm:text-lg">
           <FaBars />
         </button>
@@ -36,6 +100,18 @@ const Sidebar = () => {
         >
           Logout
         </button>
+        </div>
+        <div className='flex flex-row pl-[65px] items-center xsm:gap-2'>
+        <p className="xl:text-lg xsm:text-xs text-white font-semibold">
+            Connected Users: {timerData.connectedUsers}
+          </p>
+        <button
+            onClick={toggleTimer}
+            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold flex justify-end py-1.5 text-xs px-4 rounded-md transition duration-200"
+          >
+            {isTimerRunning ? 'Stop Timer' : 'Start Timer'}
+          </button>
+          </div>
       </div>
 
       {/* Sidebar */}
@@ -50,7 +126,7 @@ const Sidebar = () => {
           </h1>
         </div>
 
-        <ul>
+        <ul className='xsm:pt-[30px]'>
           {[
             { to: "/admindata", icon: <HiUsers />, label: "Your Admins" },
             { to: "/create", icon: <HiUserAdd />, label: "Create Admin" },
@@ -78,7 +154,7 @@ const Sidebar = () => {
 
       {/* Small Sidebar Strip for Mobile Icons Only */}
       {!isSidebarOpen && (
-        <div className="fixed top-[50px] left-0 h-full w-[60px] bg-gray-800 p-4 text-white shadow-md z-10 xl:hidden">
+        <div className="fixed top-[80px] left-0 h-full w-[60px] bg-gray-800 p-4 text-white shadow-md z-10 xl:hidden">
           <ul className="space-y-6 pt-[20px]">
             <li>
               <Link to="/admindata" className="flex justify-center">
