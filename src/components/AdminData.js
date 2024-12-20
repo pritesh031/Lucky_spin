@@ -3,6 +3,7 @@ import axios from "axios";
 import Navbar from "./Navbar";
 import Constant from "../utils/Constant";
 import Modal from "./Modal";
+import { toast, ToastContainer } from "react-toastify";
 
 function AdminData() {
   const [data, setData] = useState([]);
@@ -14,6 +15,23 @@ function AdminData() {
   const [gameDetails, setGameDetails] = useState([]);
   const [filteredGameDetails, setFilteredGameDetails] = useState([]);
   const [selectedDate, setSelectedDate] = useState("");
+  const [isPCDevice, setIsPCDevice] = useState(false);
+
+  useEffect(() => {
+    // Check if the device is PC based on screen width
+    const checkDevice = () => {
+      setIsPCDevice(window.innerWidth >= 1280); // xl breakpoint in Tailwind
+    };
+
+    // Check initially
+    checkDevice();
+
+    // Add resize listener
+    window.addEventListener('resize', checkDevice);
+
+    // Cleanup
+    return () => window.removeEventListener('resize', checkDevice);
+  }, []);
 
   const checkAuthToken = () => {
     const token = localStorage.getItem("authToken");
@@ -88,7 +106,6 @@ function AdminData() {
     }
   };
 
-  // Handle reset button click
   const handleResetFilter = () => {
     setFilteredGameDetails(gameDetails);
     setSelectedDate("");
@@ -103,7 +120,7 @@ function AdminData() {
 
   const toggleBlockUnblock = (admin) => {
     if (!checkAuthToken()) return;
-    setSelectedAdmin(admin);;;;
+    setSelectedAdmin(admin);
     setSelectedEmail(admin.adminId);
     setActionType(admin.isBlocked ? "unblock" : "block");
     setModalOpen(true);
@@ -153,94 +170,134 @@ function AdminData() {
     setSelectedEmail("");
   };
 
+  const handleResetLogin = async (adminId) => {
+    try {
+      const token = localStorage.getItem("authToken");
+
+      const response = await axios.post(
+        `${Constant.BASE_URL}/super-admin/reset-login/${adminId}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.data.success) {
+        toast.success("Login status reset successfully");
+        setData((prevData) =>
+          prevData.map((admin) =>
+            admin.adminId === adminId ? { ...admin, isLoggedIn: false } : admin
+          )
+        );
+      } else {
+        toast.error(response.data.message || "Failed to reset login status");
+      }
+    } catch (err) {
+      console.error("Error resetting login:", err);
+      toast.error(err.response?.data?.message || "Failed to reset login status");
+    }
+  };
+
   return (
     <>
       <Navbar />
       <div className="xl:p-6 xsm:pt-[55px] xsm:p-3 xsm:pl-[25px] xs:pl-[20px] bg-gray-200 min-h-screen xl:w-full overflow-auto  xsm:w-[270px] xs:w-[320px] xss:w-[355px] iphone12:w-[335px] iphone14:w-[370px] pixel7:w-[355px] gals8:w-[310px] galaxyz:w-[293px] mxs:w-[370px]">
-        <h1 className="xl:text-3xl xsm:text-lg font-bold text-gray-800 mb-4 ">Admin Data</h1>
+        <h1 className="xl:text-3xl xsm:text-lg font-bold text-gray-800 mb-4">
+          Admin Data
+        </h1>
         {data.length > 0 ? (
           <div className="overflow-hidden border-b border-gray-200 shadow-md rounded-lg">
-          <div className="overflow-x-auto">
-            <table className="xl:min-w-full divide-y divide-gray-200 xsm:w-[350px]">
-              <thead className="bg-gray-50">
-                <tr className="xsm:py-1">
-                  <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 text-left xl:text-sm xsm:text-[11px] font-medium text-gray-500 uppercase tracking-wider">
-                    Name
-                  </th>
-                  <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 text-left xl:text-sm xsm:text-[11px] font-medium text-gray-500 uppercase tracking-wider">
-                    Email
-                  </th>
-                  <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 text-left xl:text-sm xsm:text-[11px] font-medium text-gray-500 uppercase tracking-wider">
-                    Created On
-                  </th>
-                  <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 text-left xl:text-sm xsm:text-[11px] font-medium text-gray-500 uppercase tracking-wider">
-                    Wallet Balance
-                  </th>
-                  <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 text-left xl:text-sm xsm:text-[11px] font-medium text-gray-500 uppercase tracking-wider">
-                    Commission
-                  </th>
-                  <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 text-left xl:text-sm xsm:text-[11px] font-medium text-gray-500 uppercase tracking-wider">
-                    Device
-                  </th>
-                  <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 text-left xl:text-sm xsm:text-[11px] font-medium text-gray-500 uppercase tracking-wider">
-                    Admin Data
-                  </th>
-                  <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 text-left xl:text-sm xsm:text-[11px] font-medium text-gray-500 uppercase tracking-wider">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {data.map((item) => (
-                  <tr key={item.email}>
-                    <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] whitespace-nowrap  font-medium text-gray-900">
-                      {item.name}
-                    </td>
-                    <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] whitespace-nowrap text-sm font-medium text-gray-900">
-                      {item.email}
-                    </td>
-                    <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] whitespace-nowrap text-sm font-medium text-gray-900">
-                      {new Date(item.creationDate).toLocaleDateString()}
-                    </td>
-                    <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] whitespace-nowrap text-sm font-medium text-gray-900">
-                      ₹{item.walletBalance}
-                    </td>
-                    <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] whitespace-nowrap text-sm font-medium text-gray-900">
-                      ₹{item.commission}
-                    </td>
-                    <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] whitespace-nowrap text-sm font-medium text-gray-900">
-                      {item.device}
-                    </td>
-                    <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] whitespace-nowrap text-sm font-medium text-gray-900">
-                      <button
-                        className="mr-2 text-white bg-green-600 hover:bg-green-700 font-semibold xl:py-1 xl:px-2 xsm:py-[2px] xsm:px-2 rounded"
-                        onClick={() => handleCheckDetails(item)}
-                      >
-                        Check Details
-                      </button>
-                    </td>
-                    <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] whitespace-nowrap text-sm font-medium text-gray-900">
-                      <button
-                        className="mr-2 text-white bg-red-500 hover:bg-red-600 font-semibold  xl:py-1 xl:px-2 xsm:py-[2px] xsm:px-2 rounded"
-                        onClick={() => handleDelete(item.adminId)}
-                      >
-                        Delete
-                      </button>
-                      <button
-                        className={`mr-2 text-white font-semibold  xl:py-1 xl:px-2 xsm:py-[2px] xsm:px-2 rounded ${
-                          item.isBlocked
-                            ? "bg-green-500 hover:bg-green-600"
-                            : "bg-yellow-500 hover:bg-yellow-600"
-                        }`}
-                        onClick={() => toggleBlockUnblock(item)}
-                      >
-                        {item.isBlocked ? "Unblock" : "Block"}
-                      </button>
-                    </td>
+            <div className="overflow-x-auto">
+              <table className="xl:min-w-full divide-y divide-gray-200 xsm:w-[350px]">
+                <thead className="bg-gray-50">
+                  <tr className="xsm:py-1">
+                    <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 text-left xl:text-sm xsm:text-[11px] font-medium text-gray-500 uppercase tracking-wider">
+                      Name
+                    </th>
+                    <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 text-left xl:text-sm xsm:text-[11px] font-medium text-gray-500 uppercase tracking-wider">
+                      Email
+                    </th>
+                    <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 text-left xl:text-sm xsm:text-[11px] font-medium text-gray-500 uppercase tracking-wider">
+                      Created On
+                    </th>
+                    <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 text-left xl:text-sm xsm:text-[11px] font-medium text-gray-500 uppercase tracking-wider">
+                      Wallet Balance
+                    </th>
+                    <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 text-left xl:text-sm xsm:text-[11px] font-medium text-gray-500 uppercase tracking-wider">
+                      Commission
+                    </th>
+                    <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 text-left xl:text-sm xsm:text-[11px] font-medium text-gray-500 uppercase tracking-wider">
+                      Device
+                    </th>
+                    <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 text-left xl:text-sm xsm:text-[11px] font-medium text-gray-500 uppercase tracking-wider">
+                      Admin Data
+                    </th>
+                    <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 text-left xl:text-sm xsm:text-[11px] font-medium text-gray-500 uppercase tracking-wider">
+                      Actions
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {data.map((item) => (
+                    <tr key={item.email}>
+                      <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] whitespace-nowrap font-medium text-gray-900">
+                        {item.name}
+                      </td>
+                      <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] whitespace-nowrap text-sm font-medium text-gray-900">
+                        {item.email}
+                      </td>
+                      <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] whitespace-nowrap text-sm font-medium text-gray-900">
+                        {new Date(item.creationDate).toLocaleDateString()}
+                      </td>
+                      <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] whitespace-nowrap text-sm font-medium text-gray-900">
+                        ₹{item.walletBalance}
+                      </td>
+                      <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] whitespace-nowrap text-sm font-medium text-gray-900">
+                        ₹{item.commission}
+                      </td>
+                      <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] whitespace-nowrap text-sm font-medium text-gray-900">
+                        {item.device}
+                      </td>
+                      <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] whitespace-nowrap text-sm font-medium text-gray-900">
+                        <button
+                          className="mr-2 text-white bg-green-600 hover:bg-green-700 font-semibold xl:py-1 xl:px-2 xsm:py-[2px] xsm:px-2 rounded"
+                          onClick={() => handleCheckDetails(item)}
+                        >
+                          Check Details
+                        </button>
+                      </td>
+                      <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] whitespace-nowrap text-sm font-medium text-gray-900">
+                        <button
+                          className="mr-2 text-white bg-red-500 hover:bg-red-600 font-semibold xl:py-1 xl:px-2 xsm:py-[2px] xsm:px-2 rounded"
+                          onClick={() => handleDelete(item.adminId)}
+                        >
+                          Delete
+                        </button>
+                        <button
+                          className={`mr-2 text-white font-semibold xl:py-1 xl:px-2 xsm:py-[2px] xsm:px-2 rounded ${
+                            item.isBlocked
+                              ? "bg-green-500 hover:bg-green-600"
+                              : "bg-yellow-500 hover:bg-yellow-600"
+                          }`}
+                          onClick={() => toggleBlockUnblock(item)}
+                        >
+                          {item.isBlocked ? "Unblock" : "Block"}
+                        </button>
+                        {item.device === "PC" && (
+                        <button
+                          className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600"
+                          onClick={() => handleResetLogin(item.adminId)}
+                        >
+                          Reset Login
+                        </button>
+                      )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         ) : (
@@ -248,7 +305,6 @@ function AdminData() {
         )}
       </div>
 
-      {/* Static Popup */}
       {isPopupOpen && (
         <div
           className="fixed inset-0 flex items-center justify-center xl:pl-[100px] xsm:pl-[15px] xsm:pr-[15px] bg-gray-900 bg-opacity-75 z-50"
@@ -259,7 +315,7 @@ function AdminData() {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="xl:flex xl:flex-row xsm:flex xsm:flex-col items-center xl:gap-[310px]">
-              <h2 className="xl:text-2xl xsm:text-lg font-bold mb-6 text-gray-800">
+              <h2 className="xl:text-2xl xsm:text-lg font-bold mb-6 text--gray-800">
                 Admin Game Details
               </h2>
 
@@ -272,19 +328,19 @@ function AdminData() {
                   Filter by Date:
                 </label>
                 <div className="xsm:flex xsm:flex-row xsm:space-x-2">
-                <input
-                  type="date"
-                  id="filter-date"
-                  value={selectedDate}
-                  onChange={handleDateChange}
-                  className="xl:px-4 xl:py-2 xsm:px-2 xsm:py-[2px] border rounded-md"
-                />
-                <button
-                  className="bg-blue-500 text-white xl:text-md xsm:text-[12px] xl:px-4 xl:py-2 xsm:px-2 xsm:py-[2px] rounded-md hover:bg-blue-600"
-                  onClick={handleResetFilter}
-                >
-                  Reset Filter
-                </button>
+                  <input
+                    type="date"
+                    id="filter-date"
+                    value={selectedDate}
+                    onChange={handleDateChange}
+                    className="xl:px-4 xl:py-2 xsm:px-2 xsm:py-[2px] border rounded-md"
+                  />
+                  <button
+                    className="bg-blue-500 text-white xl:text-md xsm:text-[12px] xl:px-4 xl:py-2 xsm:px-2 xsm:py-[2px] rounded-md hover:bg-blue-600"
+                    onClick={handleResetFilter}
+                  >
+                    Reset Filter
+                  </button>
                 </div>
               </div>
             </div>
@@ -366,6 +422,7 @@ function AdminData() {
           className="xsm:w-[100px]"
         />
       )}
+      <ToastContainer />
     </>
   );
 }

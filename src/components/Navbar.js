@@ -48,10 +48,13 @@ export default function Navbar() {
     const newSocket = io(`${Constant.BASE_URL}`);
     setSocket(newSocket);
 
-    // Listen for timer and user updates
+    // Listen for timer updates from the backend
     newSocket.on('timerUpdate', (data) => {
       setTimerData(data);
+      setIsTimerRunning(data.isRunning); // Sync the timer running state with the backend
     });
+
+    // Listen for user count updates
     newSocket.on('userCountUpdate', (data) => {
       setTimerData((prev) => ({
         ...prev,
@@ -76,7 +79,7 @@ export default function Navbar() {
   return (
     <div>
       <nav className="xl:w-full bg-gray-800 text-white p-4 xsm:flex xl:pt-[20px] xl:p-4 xsm:pt-[0px] xsm:justify-center xl:flex xl:justify-between items-center">
-      <h2 className="text-xl font-bold"></h2>
+        <h2 className="text-xl font-bold"></h2>
         <div>
           {/* Display Connected Users */}
           <p className="xl:text-lg xsm:text-xs font-semibold">
