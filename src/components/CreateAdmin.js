@@ -10,6 +10,7 @@ function SignUpPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [device, setDeviceType] = useState("PC"); // New state for device type
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -19,7 +20,6 @@ function SignUpPage() {
     setPasswordVisible(!passwordVisible);
   };
 
-  // Check if the user is authenticated
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     if (!token) {
@@ -27,18 +27,6 @@ function SignUpPage() {
     }
   }, []);
 
-  const checkAuthToken = () => {
-    const token = localStorage.getItem("authToken");
-    if (!token) {
-      window.location.replace("http://localhost:3000");
-    }
-  };
-
-  useEffect(() => {
-    checkAuthToken();
-  }, []);
-
-  // Handle form submission to create a new admin
   const handleCreateAdmin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -62,6 +50,7 @@ function SignUpPage() {
           name,
           email,
           password,
+          device, // Send the selected device type to the backend
         }),
       });
 
@@ -169,7 +158,19 @@ function SignUpPage() {
                   )}
                 </div>
               </div>
+              <div className="relative">
+                <select
+                  value={device}
+                  onChange={(e) => setDeviceType(e.target.value)}
+                  className="mt-1 block w-full xl:p-2 bg-white xl:text-[18px] xsm:text-[12px] xl:h-[40px] xsm:h-[27px] text-gray-400 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                  disabled={isLoading}
 
+                  required
+                > <option value="" className="xsm:text-sm">Select Device</option>
+                  <option value="PC" className="xsm:text-sm">PC</option>
+                  <option value="Phone" className="xsm:text-sm">Phone</option>
+                </select>
+              </div>
               <button
                 className="w-full bg-green-600 text-white xl:p-2 xsm:p-1 xl:text-lg xsm:text-sm rounded-md hover:bg-green-700 transition duration-200"
                 disabled={isLoading}

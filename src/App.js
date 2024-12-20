@@ -11,7 +11,9 @@ import Wallet from "./components/Wallet";
 import GameHistory from "./components/GameHistory";
 import Algorithm from "./components/Algorithm";
 import Ntp from "./components/Ntp";
-
+import SubAdmins from "./components/SubAdmins";
+import Commission from "./components/Commission";
+import Transaction from "./components/Transaction";
 const AppLayout = ({ children }) => {
   return (
     <div className="flex">
@@ -48,7 +50,9 @@ const App = () => {
                 <Route path="/gamehistory" element={<GameHistory />} />
                 <Route path="/algorithm" element={<Algorithm />} />
                 <Route path="/ntp" element={<Ntp />} />
-
+                <Route path="/subadmin" element={<SubAdmins />} />
+                <Route path="/commission" element={<Commission />} />
+                <Route path="/transactions" element={<Transaction />} />
               </Routes>
             </AppLayout>
           }

@@ -1,16 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { io } from 'socket.io-client';
+import React, { useEffect, useState } from "react";
+import { io } from "socket.io-client";
 import { Link } from "react-router-dom";
 import { HiUserAdd, HiUsers } from "react-icons/hi";
 import { FaWallet, FaBars, FaMoneyCheckAlt } from "react-icons/fa";
 import { AiFillTool, AiOutlineHistory } from "react-icons/ai";
 import { SiThealgorithms } from "react-icons/si";
 import { useNavigate } from "react-router-dom";
+import { IoPeopleCircleSharp } from "react-icons/io5";
+import { RiMoneyRupeeCircleFill } from "react-icons/ri";
+import { AiOutlineTransaction } from "react-icons/ai";
+import Constant from '../utils/Constant';
 
 const Sidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const navigate = useNavigate();
-  const [isTimerRunning, setIsTimerRunning] = useState(false); 
+  const [isTimerRunning, setIsTimerRunning] = useState(false);
   const [timerData, setTimerData] = useState({
     remainingTime: 120,
     isRunning: false,
@@ -30,39 +34,37 @@ const Sidebar = () => {
     navigate("/");
   };
 
-  
-
   const toggleTimer = async () => {
     try {
       const url = isTimerRunning
-        ? 'https://lucky-card-backend.onrender.com/api/super-admin/stop-timer'
-        : 'https://lucky-card-backend.onrender.com/api/super-admin/start-timer';
+        ? `${Constant.BASE_URL}/super-admin/stop-timer`
+        : `${Constant.BASE_URL}/super-admin/start-timer`;
 
       const response = await fetch(url, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       });
 
       if (response.ok) {
-        setIsTimerRunning(!isTimerRunning); 
+        setIsTimerRunning(!isTimerRunning);
       } else {
-        console.error('Failed to toggle timer');
+        console.error("Failed to toggle timer");
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
     }
   };
   useEffect(() => {
-    const newSocket = io('https://lucky-card-backend.onrender.com');
+    const newSocket = io(`${Constant.BASE_URL}`);
     setSocket(newSocket);
 
     // Listen for timer and user updates
-    newSocket.on('timerUpdate', (data) => {
+    newSocket.on("timerUpdate", (data) => {
       setTimerData(data);
     });
-    newSocket.on('userCountUpdate', (data) => {
+    newSocket.on("userCountUpdate", (data) => {
       setTimerData((prev) => ({
         ...prev,
         connectedUsers: data.loggedInUsers,
@@ -80,38 +82,40 @@ const Sidebar = () => {
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
-    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+    return `${minutes.toString().padStart(2, "0")}:${remainingSeconds
+      .toString()
+      .padStart(2, "0")}`;
   };
 
   return (
     <div className="xl:w-64 xsm:w-[60px] relative">
       {/* Mobile Menu Bar */}
       <div className="xsm:gap-4 h-[95px] xl:hidden p-4 bg-gray-800 z-20 fixed top-0 left-0 w-full xsm:flex-col flex justify-between items-center h-16">
-       <div className='flex flex-row justify-between items-center xsm:gap-14 xs:gap-[80px] xss:gap-[100px] iphone12:gap-[90px] iphone14:gap-[110px] pixel7:gap-[100px] gals8:gap-[70px] galaxyz:gap-[64px]'>
-        <button onClick={toggleSidebar} className="text-white xsm:text-lg">
-          <FaBars />
-        </button>
-        <h1 className="xl:text-xl xsm:text-sm font-bold text-white">
-          Super Admin
-        </h1>
-        <button
-          onClick={handleLogout}
-          className="bg-red-500 hover:bg-red-600 text-white font-semibold py-1.5 text-xs px-4 rounded-md transition duration-200"
-        >
-          Logout
-        </button>
+        <div className="flex flex-row justify-between items-center xsm:gap-14 xs:gap-[80px] xss:gap-[100px] iphone12:gap-[90px] iphone14:gap-[110px] pixel7:gap-[100px] gals8:gap-[70px] galaxyz:gap-[64px]">
+          <button onClick={toggleSidebar} className="text-white xsm:text-lg">
+            <FaBars />
+          </button>
+          <h1 className="xl:text-xl xsm:text-sm font-bold text-white">
+            Super Admin
+          </h1>
+          <button
+            onClick={handleLogout}
+            className="bg-red-500 hover:bg-red-600 text-white font-semibold py-1.5 text-xs px-4 rounded-md transition duration-200"
+          >
+            Logout
+          </button>
         </div>
-        <div className='flex flex-row pl-[65px] items-center xsm:gap-2'>
-        <p className="xl:text-lg xsm:text-xs text-white font-semibold">
+        <div className="flex flex-row pl-[65px] items-center xsm:gap-2">
+          <p className="xl:text-lg xsm:text-xs text-white font-semibold">
             Connected Users: {timerData.connectedUsers}
           </p>
-        <button
+          <button
             onClick={toggleTimer}
             className="bg-blue-500 hover:bg-blue-600 text-white font-semibold flex justify-end py-1.5 text-xs px-4 rounded-md transition duration-200"
           >
-            {isTimerRunning ? 'Stop Timer' : 'Start Timer'}
+            {isTimerRunning ? "Stop Timer" : "Start Timer"}
           </button>
-          </div>
+        </div>
       </div>
 
       {/* Sidebar */}
@@ -126,15 +130,34 @@ const Sidebar = () => {
           </h1>
         </div>
 
-        <ul className='xsm:pt-[30px]'>
+        <ul className="xsm:pt-[30px]">
           {[
             { to: "/admindata", icon: <HiUsers />, label: "Your Admins" },
+            {
+              to: "/subadmin",
+              icon: <IoPeopleCircleSharp />,
+              label: "Sub Admins",
+            },
             { to: "/create", icon: <HiUserAdd />, label: "Create Admin" },
             { to: "/wallet", icon: <FaWallet />, label: "Wallet" },
             { to: "/utility", icon: <AiFillTool />, label: "Utility" },
             { to: "/algorithm", icon: <SiThealgorithms />, label: "Algorithm" },
-            { to: "/gamehistory", icon: <AiOutlineHistory />, label: "Game Id History" },
-            { to: "/ntp", icon: <FaMoneyCheckAlt />, label: "NTP" }
+            {
+              to: "/gamehistory",
+              icon: <AiOutlineHistory />,
+              label: "Game Id History",
+            },
+            { to: "/ntp", icon: <FaMoneyCheckAlt />, label: "NTP" },
+            {
+              to: "/commission",
+              icon: <RiMoneyRupeeCircleFill />,
+              label: "Commission",
+            },
+            {
+              to: "/transactions",
+              icon: <AiOutlineTransaction />,
+              label: "Transactions",
+            },
           ].map((item, index) => (
             <li key={index} className="mb-4">
               <Link
@@ -155,10 +178,15 @@ const Sidebar = () => {
       {/* Small Sidebar Strip for Mobile Icons Only */}
       {!isSidebarOpen && (
         <div className="fixed top-[80px] left-0 h-full w-[60px] bg-gray-800 p-4 text-white shadow-md z-10 xl:hidden">
-          <ul className="space-y-6 pt-[20px]">
+          <ul className="space-y-6 pt-[0px]">
             <li>
               <Link to="/admindata" className="flex justify-center">
                 <HiUsers className="h-5 w-5" />
+              </Link>
+            </li>
+            <li>
+              <Link to="/subadmin" className="flex justify-center">
+                <IoPeopleCircleSharp className="h-5 w-5" />
               </Link>
             </li>
             <li>
@@ -191,6 +219,16 @@ const Sidebar = () => {
                 <FaMoneyCheckAlt className="h-5 w-5" />
               </Link>
             </li>
+            <li>
+              <Link to="/commission" className="flex justify-center">
+                <RiMoneyRupeeCircleFill className="h-5 w-5" />
+              </Link>
+            </li>
+            <li>
+              <Link to="/transactions" className="flex justify-center">
+                <AiOutlineTransaction className="h-5 w-5" />
+              </Link>
+            </li>
           </ul>
         </div>
       )}
@@ -207,8 +245,6 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
-
-
 
 // import React from "react";
 // import { Link } from "react-router-dom";

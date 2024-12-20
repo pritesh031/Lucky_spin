@@ -103,7 +103,7 @@ function AdminData() {
 
   const toggleBlockUnblock = (admin) => {
     if (!checkAuthToken()) return;
-    setSelectedAdmin(admin);
+    setSelectedAdmin(admin);;;;
     setSelectedEmail(admin.adminId);
     setActionType(admin.isBlocked ? "unblock" : "block");
     setModalOpen(true);
@@ -177,6 +177,12 @@ function AdminData() {
                     Wallet Balance
                   </th>
                   <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 text-left xl:text-sm xsm:text-[11px] font-medium text-gray-500 uppercase tracking-wider">
+                    Commission
+                  </th>
+                  <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 text-left xl:text-sm xsm:text-[11px] font-medium text-gray-500 uppercase tracking-wider">
+                    Device
+                  </th>
+                  <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 text-left xl:text-sm xsm:text-[11px] font-medium text-gray-500 uppercase tracking-wider">
                     Admin Data
                   </th>
                   <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 text-left xl:text-sm xsm:text-[11px] font-medium text-gray-500 uppercase tracking-wider">
@@ -198,6 +204,12 @@ function AdminData() {
                     </td>
                     <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] whitespace-nowrap text-sm font-medium text-gray-900">
                       ₹{item.walletBalance}
+                    </td>
+                    <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] whitespace-nowrap text-sm font-medium text-gray-900">
+                      ₹{item.commission}
+                    </td>
+                    <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] whitespace-nowrap text-sm font-medium text-gray-900">
+                      {item.device}
                     </td>
                     <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] whitespace-nowrap text-sm font-medium text-gray-900">
                       <button

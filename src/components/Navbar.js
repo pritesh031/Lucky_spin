@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 import { useNavigate } from 'react-router-dom';
+import Constant from '../utils/Constant';
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -23,8 +24,8 @@ export default function Navbar() {
   const toggleTimer = async () => {
     try {
       const url = isTimerRunning
-        ? 'https://lucky-card-backend.onrender.com/api/super-admin/stop-timer'
-        : 'https://lucky-card-backend.onrender.com/api/super-admin/start-timer';
+        ? `${Constant.BASE_URL}/super-admin/stop-timer`
+        : `${Constant.BASE_URL}/super-admin/start-timer`;
 
       const response = await fetch(url, {
         method: 'POST',
@@ -44,7 +45,7 @@ export default function Navbar() {
   };
 
   useEffect(() => {
-    const newSocket = io('https://lucky-card-backend.onrender.com');
+    const newSocket = io(`${Constant.BASE_URL}`);
     setSocket(newSocket);
 
     // Listen for timer and user updates
