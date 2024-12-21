@@ -24,8 +24,8 @@ export default function Navbar() {
   const toggleTimer = async () => {
     try {
       const url = isTimerRunning
-        ? `${Constant.BASE_URL}/super-admin/stop-timer`
-        : `${Constant.BASE_URL}/super-admin/start-timer`;
+      ? "https://winningspin-backend-nodejs.onrender.com/api/super-admin/stop-timer"
+      : "https://winningspin-backend-nodejs.onrender.com/api/super-admin/start-timer";
 
       const response = await fetch(url, {
         method: 'POST',
@@ -45,7 +45,7 @@ export default function Navbar() {
   };
 
   useEffect(() => {
-    const newSocket = io(`${Constant.BASE_URL}`);
+    const newSocket = io("https://winningspin-backend-nodejs.onrender.com");
     setSocket(newSocket);
 
     // Listen for timer updates from the backend
