@@ -34,6 +34,8 @@ function Transaction() {
 
         {/* Main Content */}
         <div className="xl:p-6 xsm:pt-[55px] xsm:p-3 xsm:pl-[25px] xs:pl-[20px] bg-gray-200 min-h-screen xl:w-full overflow-auto  xsm:w-[270px] xs:w-[320px] xss:w-[355px] iphone12:w-[335px] iphone14:w-[370px] pixel7:w-[355px] gals8:w-[310px] galaxyz:w-[293px] mxs:w-[370px]">
+        <div className="xl:w-[calc(100vw-310px)] xsm:w-[calc(100vw-90px)]">
+
           <h1 className="xl:text-3xl xsm:text-lg font-bold text-gray-800 mb-4 ">
             Transaction History
           </h1>
@@ -116,6 +118,7 @@ function Transaction() {
             </div>
           </div>
         </div>
+     </div>
       </div>
     </>
   );

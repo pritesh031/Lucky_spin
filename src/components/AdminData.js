@@ -27,10 +27,10 @@ function AdminData() {
     checkDevice();
 
     // Add resize listener
-    window.addEventListener('resize', checkDevice);
+    window.addEventListener("resize", checkDevice);
 
     // Cleanup
-    return () => window.removeEventListener('resize', checkDevice);
+    return () => window.removeEventListener("resize", checkDevice);
   }, []);
 
   const checkAuthToken = () => {
@@ -196,113 +196,121 @@ function AdminData() {
       }
     } catch (err) {
       console.error("Error resetting login:", err);
-      toast.error(err.response?.data?.message || "Failed to reset login status");
+      toast.error(
+        err.response?.data?.message || "Failed to reset login status"
+      );
     }
   };
 
   return (
     <>
       <Navbar />
-      <div className="xl:p-6 xsm:pt-[55px] xsm:p-3 xsm:pl-[25px] xs:pl-[20px] bg-gray-200 min-h-screen xl:w-full overflow-auto  xsm:w-[270px] xs:w-[320px] xss:w-[355px] iphone12:w-[335px] iphone14:w-[370px] pixel7:w-[355px] gals8:w-[310px] galaxyz:w-[293px] mxs:w-[370px]">
-        <h1 className="xl:text-3xl xsm:text-lg font-bold text-gray-800 mb-4">
-          Admin Data
-        </h1>
-        {data.length > 0 ? (
-          <div className="overflow-hidden border-b border-gray-200 shadow-md rounded-lg">
-            <div className="overflow-x-auto">
-              <table className="xl:min-w-full divide-y divide-gray-200 xsm:w-[350px]">
-                <thead className="bg-gray-50">
-                  <tr className="xsm:py-1">
-                    <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 text-left xl:text-sm xsm:text-[11px] font-medium text-gray-500 uppercase tracking-wider">
-                      Name
-                    </th>
-                    <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 text-left xl:text-sm xsm:text-[11px] font-medium text-gray-500 uppercase tracking-wider">
-                      Email
-                    </th>
-                    <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 text-left xl:text-sm xsm:text-[11px] font-medium text-gray-500 uppercase tracking-wider">
-                      Created On
-                    </th>
-                    <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 text-left xl:text-sm xsm:text-[11px] font-medium text-gray-500 uppercase tracking-wider">
-                      Wallet Balance
-                    </th>
-                    <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 text-left xl:text-sm xsm:text-[11px] font-medium text-gray-500 uppercase tracking-wider">
-                      Commission
-                    </th>
-                    <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 text-left xl:text-sm xsm:text-[11px] font-medium text-gray-500 uppercase tracking-wider">
-                      Device
-                    </th>
-                    <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 text-left xl:text-sm xsm:text-[11px] font-medium text-gray-500 uppercase tracking-wider">
-                      Admin Data
-                    </th>
-                    <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 text-left xl:text-sm xsm:text-[11px] font-medium text-gray-500 uppercase tracking-wider">
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {data.map((item) => (
-                    <tr key={item.email}>
-                      <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] whitespace-nowrap font-medium text-gray-900">
-                        {item.name}
-                      </td>
-                      <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] whitespace-nowrap text-sm font-medium text-gray-900">
-                        {item.email}
-                      </td>
-                      <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] whitespace-nowrap text-sm font-medium text-gray-900">
-                        {new Date(item.creationDate).toLocaleDateString()}
-                      </td>
-                      <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] whitespace-nowrap text-sm font-medium text-gray-900">
-                        ₹{item.walletBalance}
-                      </td>
-                      <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] whitespace-nowrap text-sm font-medium text-gray-900">
-                        ₹{item.commission}
-                      </td>
-                      <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] whitespace-nowrap text-sm font-medium text-gray-900">
-                        {item.device}
-                      </td>
-                      <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] whitespace-nowrap text-sm font-medium text-gray-900">
-                        <button
-                          className="mr-2 text-white bg-green-600 hover:bg-green-700 font-semibold xl:py-1 xl:px-2 xsm:py-[2px] xsm:px-2 rounded"
-                          onClick={() => handleCheckDetails(item)}
-                        >
-                          Check Details
-                        </button>
-                      </td>
-                      <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] whitespace-nowrap text-sm font-medium text-gray-900">
-                        <button
-                          className="mr-2 text-white bg-red-500 hover:bg-red-600 font-semibold xl:py-1 xl:px-2 xsm:py-[2px] xsm:px-2 rounded"
-                          onClick={() => handleDelete(item.adminId)}
-                        >
-                          Delete
-                        </button>
-                        <button
-                          className={`mr-2 text-white font-semibold xl:py-1 xl:px-2 xsm:py-[2px] xsm:px-2 rounded ${
-                            item.isBlocked
-                              ? "bg-green-500 hover:bg-green-600"
-                              : "bg-yellow-500 hover:bg-yellow-600"
-                          }`}
-                          onClick={() => toggleBlockUnblock(item)}
-                        >
-                          {item.isBlocked ? "Unblock" : "Block"}
-                        </button>
-                        {item.device === "PC" && (
-                        <button
-                          className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600"
-                          onClick={() => handleResetLogin(item.adminId)}
-                        >
-                          Reset Login
-                        </button>
-                      )}
-                      </td>
+      <div className="xl:p-6 xsm:pt-[55px] xsm:p-3 bg-gray-200 min-h-screen">
+        {/* Container with fixed width and overflow control */}
+        <div className="xl:w-[calc(100vw-310px)] xsm:w-[calc(100vw-90px)]">
+          {" "}
+          {/* Adjust 270px based on your sidebar width */}
+          <h1 className="xl:text-3xl xsm:text-lg font-bold text-gray-800 mb-4">
+            Admin Data
+          </h1>
+          {data.length > 0 ? (
+            <div className="border-b border-gray-200 shadow-md rounded-lg">
+              {/* Table wrapper with horizontal scroll */}
+              <div className="overflow-x-auto">
+                <table className="w-full divide-y divide-gray-200">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 text-left xl:text-sm xsm:text-[11px] font-medium text-gray-500 uppercase tracking-wider">
+                        Name
+                      </th>
+                      <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 text-left xl:text-sm xsm:text-[11px] font-medium text-gray-500 uppercase tracking-wider">
+                        Email
+                      </th>
+                      <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 text-left xl:text-sm xsm:text-[11px] font-medium text-gray-500 uppercase tracking-wider">
+                        Created On
+                      </th>
+                      <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 text-left xl:text-sm xsm:text-[11px] font-medium text-gray-500 uppercase tracking-wider">
+                        Wallet Balance
+                      </th>
+                      <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 text-left xl:text-sm xsm:text-[11px] font-medium text-gray-500 uppercase tracking-wider">
+                        Commission
+                      </th>
+                      <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 text-left xl:text-sm xsm:text-[11px] font-medium text-gray-500 uppercase tracking-wider">
+                        Device
+                      </th>
+                      <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 text-left xl:text-sm xsm:text-[11px] font-medium text-gray-500 uppercase tracking-wider">
+                        Admin Data
+                      </th>
+                      <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-1 text-left xl:text-sm xsm:text-[11px] font-medium text-gray-500 uppercase tracking-wider">
+                        Actions
+                      </th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {data.map((item) => (
+                      <tr key={item.email}>
+                        <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] whitespace-nowrap font-medium text-gray-900">
+                          {item.name}
+                        </td>
+                        <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] whitespace-nowrap text-sm font-medium text-gray-900">
+                          {item.email}
+                        </td>
+                        <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] whitespace-nowrap text-sm font-medium text-gray-900">
+                          {new Date(item.creationDate).toLocaleDateString()}
+                        </td>
+                        <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] whitespace-nowrap text-sm font-medium text-gray-900">
+                          ₹{item.walletBalance}
+                        </td>
+                        <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] whitespace-nowrap text-sm font-medium text-gray-900">
+                          ₹{item.commission}
+                        </td>
+                        <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] whitespace-nowrap text-sm font-medium text-gray-900">
+                          {item.device}
+                        </td>
+                        <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] whitespace-nowrap text-sm font-medium text-gray-900">
+                          <button
+                            className="mr-2 text-white bg-green-600 hover:bg-green-700 font-semibold xl:py-1 xl:px-2 xsm:py-[2px] xsm:px-2 rounded"
+                            onClick={() => handleCheckDetails(item)}
+                          >
+                            Check Details
+                          </button>
+                        </td>
+                        <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-1 xl:text-sm xsm:text-[11px] whitespace-nowrap text-sm font-medium text-gray-900">
+                          <button
+                            className="mr-2 text-white bg-red-500 hover:bg-red-600 font-semibold xl:py-1 xl:px-2 xsm:py-[2px] xsm:px-2 rounded"
+                            onClick={() => handleDelete(item.adminId)}
+                          >
+                            Delete
+                          </button>
+                          <button
+                            className={`mr-2 text-white font-semibold xl:py-1 xl:px-2 xsm:py-[2px] xsm:px-2 rounded ${
+                              item.isBlocked
+                                ? "bg-green-500 hover:bg-green-600"
+                                : "bg-yellow-500 hover:bg-yellow-600"
+                            }`}
+                            onClick={() => toggleBlockUnblock(item)}
+                          >
+                            {item.isBlocked ? "Unblock" : "Block"}
+                          </button>
+                          {item.device === "PC" && (
+                            <button
+                              className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600"
+                              onClick={() => handleResetLogin(item.adminId)}
+                            >
+                              Reset Login
+                            </button>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
-          </div>
-        ) : (
-          <div className="mt-4 text-gray-500">No admin data available.</div>
-        )}
+          ) : (
+            <div className="mt-4 text-gray-500">No admin data available.</div>
+          )}
+        </div>
       </div>
 
       {isPopupOpen && (

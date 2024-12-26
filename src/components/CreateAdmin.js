@@ -166,7 +166,7 @@ function SignUpPage() {
                   disabled={isLoading}
 
                   required
-                > <option value="" className="xsm:text-sm">Select Device</option>
+                >
                   <option value="PC" className="xsm:text-sm">PC</option>
                   <option value="Phone" className="xsm:text-sm">Phone</option>
                 </select>
