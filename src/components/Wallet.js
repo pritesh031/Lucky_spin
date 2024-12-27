@@ -207,6 +207,7 @@ const AdminWalletUpdate = () => {
   return (
     <>
       <Navbar />
+      <div>
       <div className="bg-gray-200 xl:h-[120vh] xsm:pl-[33px] xsm:pr-[20px] xl:p-6 xsm:p-4  flex flex-col items-center space-y-6 xl:w-full  xsm:p-6 xsm:pl-[25px] xs:pl-[27px] xss:pl-[25px] iphone12:pl-[30px] iphone14:pl-[20px] pixel7:pl-[27px] gals8:pl-[33px] galaxyz:pl-[32px] xsm:w-[270px] xs:w-[320px] xss:w-[355px] iphone12:w-[335px] iphone14:w-[370px] pixel7:w-[355px] gals8:w-[310px] galaxyz:w-[293px] mxs:w-[370px]">
         <div className="xl:flex xl:flex-row xsm:flex xsm:flex-col items-center xl:gap-8 xsm:gap-0">
           {/* Deposit Box */}
@@ -403,6 +404,7 @@ const AdminWalletUpdate = () => {
             </button>
           </div>
         </div>
+      </div>
       </div>
     </>
   );

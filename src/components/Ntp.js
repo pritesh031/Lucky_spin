@@ -33,6 +33,9 @@ export default function Ntp() {
                     Admin ID
                   </th>
                   <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-2 text-left xl:text-sm xsm:text-[11px] font-medium text-gray-600 uppercase tracking-wider">
+                   Name
+                  </th>
+                  <th className="xl:px-6 xl:py-3 xsm:px-6 xsm:py-2 text-left xl:text-sm xsm:text-[11px] font-medium text-gray-600 uppercase tracking-wider">
                     NTP
                   </th>
                 </tr>
@@ -42,6 +45,9 @@ export default function Ntp() {
                   <tr key={admin.adminId}>
                     <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-2 xl:text-sm xsm:text-[11px] whitespace-nowrap text-sm font-medium text-gray-900">
                       {admin.adminId}
+                    </td>
+                    <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-2 xl:text-sm xsm:text-[11px] whitespace-nowrap text-sm font-medium text-gray-900">
+                      {admin.name}
                     </td>
                     <td className="xl:px-6 xl:py-4 xsm:px-6 xsm:py-2 xl:text-sm xsm:text-[11px] whitespace-nowrap text-sm text-gray-900">
                       {admin.NTP}
