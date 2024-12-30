@@ -14,6 +14,7 @@ import Ntp from "./components/Ntp";
 import SubAdmins from "./components/SubAdmins";
 import Commission from "./components/Commission";
 import Transaction from "./components/Transaction";
+import Reset_Password from "./components/Reset_Password";
 const AppLayout = ({ children }) => {
   return (
     <div className="flex">
@@ -53,6 +54,7 @@ const App = () => {
                 <Route path="/subadmin" element={<SubAdmins />} />
                 <Route path="/commission" element={<Commission />} />
                 <Route path="/transactions" element={<Transaction />} />
+                <Route path="/resetpswd" element={<Reset_Password />} />
               </Routes>
             </AppLayout>
           }

@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { IoPeopleCircleSharp } from "react-icons/io5";
 import { RiMoneyRupeeCircleFill } from "react-icons/ri";
 import { AiOutlineTransaction } from "react-icons/ai";
-import Constant from '../utils/Constant';
+import { GrPowerReset } from "react-icons/gr";
 
 const Sidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -158,6 +158,11 @@ const Sidebar = () => {
               icon: <AiOutlineTransaction />,
               label: "Transactions",
             },
+            {
+              to: "/resetpswd",
+              icon: <GrPowerReset />,
+              label: "Reset Password",
+            },
           ].map((item, index) => (
             <li key={index} className="mb-4">
               <Link
@@ -227,6 +232,11 @@ const Sidebar = () => {
             <li>
               <Link to="/transactions" className="flex justify-center">
                 <AiOutlineTransaction className="h-5 w-5" />
+              </Link>
+            </li>
+            <li>
+              <Link to="/resetpswd" className="flex justify-center">
+                <GrPowerReset className="h-5 w-5" />
               </Link>
             </li>
           </ul>
